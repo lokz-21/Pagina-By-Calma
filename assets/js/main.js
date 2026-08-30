@@ -55,12 +55,18 @@ const CONFIG = {
   const hero = document.getElementById("inicio");
 
   if (header && hero && "IntersectionObserver" in window) {
-    // El header se vuelve opaco cuando el hero deja de cubrir su franja superior
+    /* El header se vuelve opaco cuando la FOTO del hero deja de cubrir su
+       franja superior. Se observa la foto y no la sección entera porque en
+       celular el hero sigue hacia abajo con fondo claro: si miráramos la
+       sección, el logo blanco quedaría invisible sobre el beige. En escritorio
+       la foto está en position:absolute e inset:0, o sea que mide exactamente
+       lo mismo que el hero y el comportamiento no cambia. */
+    const heroWatchTarget = hero.querySelector(".hero-media") || hero;
     const heroWatcher = new IntersectionObserver(
       ([entry]) => header.classList.toggle("is-stuck", !entry.isIntersecting),
       { rootMargin: "-76px 0px 0px 0px", threshold: 0 }
     );
-    heroWatcher.observe(hero);
+    heroWatcher.observe(heroWatchTarget);
   } else if (header) {
     // Fallback para navegadores sin IntersectionObserver
     const onScroll = () =>

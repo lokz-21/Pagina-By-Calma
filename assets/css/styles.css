@@ -252,10 +252,14 @@ button {
   letter-spacing: -0.025em;
 }
 
+/* El mínimo baja de 40px a 30px: en una pantalla de 375px, 40px metía los
+   titulares en tres renglones y le comía el aire a todo lo de abajo. De 900px
+   para arriba manda el 5vw y nada cambia respecto de antes. */
 .h-section {
-  font-size: clamp(2.5rem, 5vw, 3.75rem);
+  font-size: clamp(1.875rem, 5vw, 3.75rem);
   font-weight: 300;
   letter-spacing: -0.022em;
+  line-height: 1.18;
 }
 
 .h-card {
@@ -610,34 +614,59 @@ button {
    ========================================================================== */
 
 .hero {
-  --hero-focus: center 30%; /* encuadre de la foto: ajustar según la imagen */
+  /* Encuadre de la foto. En celular la foto va en un panel corto arriba de
+     todo: con ese alto el recorte es vertical y no lateral, así que las dos
+     entran enteras. El 12% sube la ventana para dejarles aire sobre la cabeza. */
+  --hero-focus: 50% 12%;
   --hero-scrim: 52, 42, 37; /* marrón cálido oscuro, en RGB para poder opacar */
 
   position: relative;
-  min-height: 100svh;
   display: flex;
-  align-items: flex-end;
-  overflow: hidden;
-  background: linear-gradient(
-    135deg,
-    rgb(var(--hero-scrim)),
-    #4a3b34 55%,
-    #6d564b
-  );
-  border-bottom-left-radius: var(--r-xl);
-  border-bottom-right-radius: var(--r-xl);
+  flex-direction: column;
+  background: var(--bg);
 }
 
+/* Escritorio: vuelve la composición de una sola pieza, con la foto de fondo a
+   sangre y el texto encima de la franja oscura de la izquierda. */
 @media (min-width: 900px) {
   .hero {
+    --hero-focus: center 30%;
+
+    flex-direction: row;
     align-items: center;
+    min-height: 100svh;
+    overflow: hidden;
+    background: linear-gradient(
+      135deg,
+      rgb(var(--hero-scrim)),
+      #4a3b34 55%,
+      #6d564b
+    );
+    border-bottom-left-radius: var(--r-xl);
+    border-bottom-right-radius: var(--r-xl);
   }
 }
 
+/* Celular: la foto tiene panel propio. Antes ocupaba la pantalla entera y, al
+   ser más alta que ancha la pantalla, el recorte lateral se comía media cara
+   de una de las dos. Con este alto el recorte pasa a ser vertical. */
 .hero-media {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
+  position: relative;
+  height: clamp(16rem, 42svh, 24rem);
+  background: #4a3b34;
+  border-bottom-left-radius: var(--r-xl);
+  border-bottom-right-radius: var(--r-xl);
+  overflow: hidden;
+}
+
+@media (min-width: 900px) {
+  .hero-media {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    height: auto;
+    border-radius: 0;
+  }
 }
 
 .hero-media picture,
@@ -674,22 +703,14 @@ button {
   }
 }
 
-/* Capa vertical suave: asienta el texto en móvil y da profundidad en escritorio */
+/* Capa vertical de profundidad. En celular ya no hace falta ninguna: el texto
+   salió de encima de la foto, así que la imagen se ve limpia y sin velo. */
 .hero::after {
   content: "";
   position: absolute;
   inset: 0;
   z-index: 1;
   pointer-events: none;
-  background: linear-gradient(
-    to top,
-    rgba(var(--hero-scrim), 0.86) 0%,
-    rgba(var(--hero-scrim), 0.76) 38%,
-    rgba(var(--hero-scrim), 0.52) 55%,
-    rgba(var(--hero-scrim), 0.22) 68%,
-    rgba(var(--hero-scrim), 0.05) 82%,
-    rgba(var(--hero-scrim), 0.32) 100%
-  );
 }
 
 @media (min-width: 900px) {
@@ -709,7 +730,9 @@ button {
   position: relative;
   z-index: 2;
   width: 100%;
-  padding-block: 8rem clamp(2.5rem, 7vh, 4.5rem);
+  /* En celular el header queda sobre la foto, no sobre el texto: no hay que
+     reservarle 8rem arriba. */
+  padding-block: var(--space-8) var(--space-12);
   max-width: 1240px;
 }
 
@@ -724,41 +747,106 @@ button {
   }
 }
 
+/* --- Texto del hero ----------------------------------------------------
+   Celular: tinta oscura sobre el fondo beige. Es el cambio que más se nota
+   para quien lee con menos vista de cerca. El blanco sobre la foto quedaba
+   apenas por encima de 2:1 de contraste en las zonas claras (las camisas):
+   el mínimo legible es 4.5:1 y esto da 11:1. La bajada rosa del titular pasa
+   a --terracota-deep, que es el mismo tono de marca pero con 5.4:1.
+   Escritorio: sigue en blanco sobre la franja oscura del degradado, donde el
+   contraste ya estaba resuelto.
+   ---------------------------------------------------------------------- */
+
 .hero-eyebrow {
-  color: rgba(255, 255, 255, 0.92);
+  color: var(--text-muted);
 }
 
 .hero-eyebrow::before {
-  background: var(--nude);
+  background: var(--terracota);
 }
 
 .hero-title {
-  margin-top: var(--space-5);
-  max-width: 14ch;
-  color: #ffffff;
-  font-size: clamp(2.75rem, 5.6vw, 4rem);
+  margin-top: var(--space-4);
+  color: var(--text);
+  font-size: clamp(2.125rem, 5.6vw, 4rem);
   font-weight: 400;
-  line-height: 1.08;
+  line-height: 1.12;
   letter-spacing: -0.03em;
-  text-shadow: 0 2px 30px rgba(var(--hero-scrim), 0.5);
 }
 
 .hero-title em {
   font-style: italic;
-  color: var(--nude);
+  color: var(--terracota-deep);
 }
 
 .hero-sub {
-  margin-top: var(--space-5);
+  margin-top: var(--space-4);
   max-width: 38ch;
-  color: rgba(255, 255, 255, 0.88);
+  color: var(--text-muted);
   font-size: 1.0625rem;
   line-height: 1.6;
-  text-shadow: 0 1px 14px rgba(var(--hero-scrim), 0.6);
 }
 
 .hero-actions {
   margin-top: var(--space-8);
+}
+
+/* El CTA ocupa todo el ancho disponible: blanco fácil de acertar con el dedo */
+.hero-actions .btn {
+  width: 100%;
+}
+
+/* Sobre fondo claro un botón blanco se pierde: acá va el oscuro de marca */
+.hero-actions .btn-light {
+  background: var(--primary);
+  color: var(--on-primary);
+  backdrop-filter: none;
+}
+
+.hero-actions .btn-light:hover {
+  background: var(--primary-hover);
+}
+
+@media (min-width: 900px) {
+  .hero-eyebrow {
+    color: rgba(255, 255, 255, 0.92);
+  }
+
+  .hero-eyebrow::before {
+    background: var(--nude);
+  }
+
+  .hero-title {
+    margin-top: var(--space-5);
+    max-width: 14ch;
+    color: #ffffff;
+    line-height: 1.08;
+    text-shadow: 0 2px 30px rgba(var(--hero-scrim), 0.5);
+  }
+
+  .hero-title em {
+    color: var(--nude);
+  }
+
+  .hero-sub {
+    margin-top: var(--space-5);
+    color: rgba(255, 255, 255, 0.88);
+    text-shadow: 0 1px 14px rgba(var(--hero-scrim), 0.6);
+  }
+
+  .hero-actions .btn {
+    width: auto;
+  }
+
+  .hero-actions .btn-light {
+    background: rgba(255, 255, 255, 0.95);
+    color: var(--ink);
+    backdrop-filter: blur(8px);
+  }
+
+  .hero-actions .btn-light:hover {
+    background: #ffffff;
+  }
 }
 
 /* CTA único: se le da algo más de cuerpo que a un botón normal */
@@ -825,11 +913,19 @@ button {
 .hero-stats {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-6) var(--space-12);
-  margin: var(--space-12) 0 0;
+  gap: var(--space-6) var(--space-8);
+  margin: var(--space-8) 0 0;
   padding: var(--space-6) 0 0;
   list-style: none;
-  border-top: 1px solid rgba(255, 255, 255, 0.24);
+  border-top: 1px solid var(--sand-deep);
+}
+
+@media (min-width: 900px) {
+  .hero-stats {
+    gap: var(--space-6) var(--space-12);
+    margin-top: var(--space-12);
+    border-top-color: rgba(255, 255, 255, 0.24);
+  }
 }
 
 .stat {
@@ -843,18 +939,28 @@ button {
   font-size: clamp(2.25rem, 4.4vw, 3rem);
   line-height: 1;
   letter-spacing: -0.02em;
-  color: #ffffff;
+  color: var(--text);
   /* Cifras de ancho fijo: evita que el layout salte mientras cuenta */
   font-variant-numeric: tabular-nums;
   font-feature-settings: "tnum" 1;
-  text-shadow: 0 2px 20px rgba(var(--hero-scrim), 0.45);
 }
 
 .stat-label {
   font-size: 0.8125rem;
   font-weight: 400;
   letter-spacing: 0.04em;
-  color: rgba(255, 255, 255, 0.8);
+  color: var(--text-muted);
+}
+
+@media (min-width: 900px) {
+  .stat-value {
+    color: #ffffff;
+    text-shadow: 0 2px 20px rgba(var(--hero-scrim), 0.45);
+  }
+
+  .stat-label {
+    color: rgba(255, 255, 255, 0.8);
+  }
 }
 
 /* ==========================================================================
@@ -907,12 +1013,17 @@ button {
   flex-shrink: 0;
 }
 
-.section-head .h-section {
+/* Ritmo del bloque "volanta → titular → bajada". Antes solo lo tenían los
+   .section-head y .frentes-intro; los demás bloques (Quiénes somos, FAQ,
+   Contacto) salían con el párrafo pegado al titular porque el reset pone
+   margin: 0 en h1-h4 y en p. Con selectores de hermano adyacente se arregla
+   en todos lados de una y sin tocar el HTML. */
+.eyebrow + .h-section {
   margin-top: var(--space-4);
 }
 
-.section-head .lead {
-  margin-top: var(--space-4);
+.h-section + .lead {
+  margin-top: var(--space-5);
 }
 
 /* ==========================================================================
@@ -951,18 +1062,34 @@ button {
   }
 }
 
+/* En celular la foto vertical se comía media pantalla (409px de 812) y
+   empujaba el texto fuera de la vista. En cuadrada baja al 40% y además se
+   ve mejor: entra la escena entera — la cara, las manos, la jeringa y la
+   frente de la paciente — que en el recorte vertical quedaba partida.
+   De 900px para arriba vuelve la vertical, que ahí va al lado del texto. */
 .about-media {
   position: relative;
   border-radius: var(--r-lg);
   overflow: hidden;
   box-shadow: var(--shadow-lg);
-  aspect-ratio: 4 / 5;
+  aspect-ratio: 1 / 1;
 }
 
 .about-media img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: 50% 14%;
+}
+
+@media (min-width: 900px) {
+  .about-media {
+    aspect-ratio: 4 / 5;
+  }
+
+  .about-media img {
+    object-position: center;
+  }
 }
 
 .value-list {
