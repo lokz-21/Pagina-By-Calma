@@ -4,13 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>
-      By Calma Estética | Medicina estética facial en Ituzaingó, Buenos Aires
-    </title>
-    <meta
-      name="description"
-      content="Centro de medicina estética facial en Ituzaingó Norte, Buenos Aires. Dra. Zulma Granja y Dra. Karina Coronel: bioestimulación, hidratación profunda, armonización facial y toxina botulínica con resultados naturales."
-    />
+    <title>By Calma Estética | Medicina estética facial en Ituzaingó</title>
+    <meta name="description" content="Medicina estética facial en Ituzaingó Norte con la Dra. Zulma Granja y la Dra. Karina Coronel. Resultados naturales. Turnos por WhatsApp." />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
     <meta name="theme-color" content="#f7f3ee" />
     <meta name="author" content="By Calma Estética" />
     <link rel="canonical" href="https://www.bycalmaestetica.com.ar/" />
@@ -21,16 +17,22 @@
     <meta property="og:site_name" content="By Calma Estética" />
     <meta
       property="og:title"
-      content="By Calma Estética | Medicina estética facial en Ituzaingó, Buenos Aires"
+      content="By Calma Estética | Medicina estética facial en Ituzaingó"
     />
     <meta
       property="og:description"
       content="Pequeños cambios que realzan tu belleza, sin perder tu esencia. Santos Dumont 1299, Ituzaingó Norte."
     />
     <meta property="og:url" content="https://www.bycalmaestetica.com.ar/" />
-    <meta property="og:image" content="https://www.bycalmaestetica.com.ar/assets/img/hero-equipo.jpg" />
+    <!-- Imagen propia 1200x630: WhatsApp e Instagram recortan a 1,91:1, y el hero (16:9)
+         quedaba con la mitad vacía. El ?v= obliga a las redes a re-leerla. -->
+    <meta property="og:image" content="https://www.bycalmaestetica.com.ar/assets/img/og-by-calma.jpg?v=1" />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="La Dra. Zulma Granja y la Dra. Karina Coronel, de By Calma Estética" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:image" content="https://www.bycalmaestetica.com.ar/assets/img/hero-equipo.jpg" />
+    <meta name="twitter:image" content="https://www.bycalmaestetica.com.ar/assets/img/og-by-calma.jpg?v=1" />
 
     <!-- Íconos generados a partir de la "E" itálica del logo -->
     <link rel="icon" href="assets/logo/favicon.png" sizes="32x32" />
@@ -50,35 +52,77 @@
 
     <!-- El ?v= fuerza al navegador a bajar la versión nueva. Subilo a v=2, v=3…
          cada vez que edites el CSS o el JS y publiques. -->
-    <link rel="stylesheet" href="assets/css/styles.css?v=25" />
+    <link rel="stylesheet" href="assets/css/styles.css?v=27" />
+
+    <!-- Si el JavaScript no corre (bloqueado, falló la red, navegador viejo), la
+         animación de entrada nunca se dispara y el titular, el botón y todas las
+         secciones quedaban en opacity:0, o sea invisibles. -->
+    <noscript>
+      <style>
+        [data-reveal],
+        .hero-inner > * {
+          opacity: 1 !important;
+          transform: none !important;
+        }
+        .hero-media img {
+          transform: none !important;
+        }
+      </style>
+    </noscript>
 
     <!-- Ficha del negocio para Google (datos reales) -->
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
-        "@type": "MedicalBusiness",
+        "@type": "MedicalClinic",
+        "@id": "https://www.bycalmaestetica.com.ar/#clinica",
         "name": "By Calma Estética",
-        "description": "Centro de medicina estética facial en Ituzaingó Norte, Provincia de Buenos Aires.",
+        "alternateName": "By Calma",
+        "description": "Consultorio de medicina estética facial en Ituzaingó Norte, Provincia de Buenos Aires. Toxina botulínica, ácido hialurónico y bioestimulación con resultados naturales.",
         "url": "https://www.bycalmaestetica.com.ar/",
-        "image": "https://www.bycalmaestetica.com.ar/assets/img/hero-equipo.jpg",
+        "logo": "https://www.bycalmaestetica.com.ar/assets/logo/logo.png",
+        "image": [
+          "https://www.bycalmaestetica.com.ar/assets/img/og-by-calma.jpg",
+          "https://www.bycalmaestetica.com.ar/assets/img/hero-equipo.jpg"
+        ],
+        "telephone": "+541144473467",
         "address": {
           "@type": "PostalAddress",
           "streetAddress": "Santos Dumont 1299",
-          "addressLocality": "Ituzaingó Norte",
-          "addressRegion": "Provincia de Buenos Aires",
+          "addressLocality": "Ituzaingó",
+          "addressRegion": "Buenos Aires",
+          "postalCode": "B1714CRY",
           "addressCountry": "AR"
         },
-        "telephone": "+541144473467",
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": -34.6420892,
+          "longitude": -58.6840855
+        },
+        "hasMap": "https://maps.google.com/?cid=14278384173827201350",
+        "areaServed": "Ituzaingó y zona oeste del Gran Buenos Aires",
         "openingHoursSpecification": {
           "@type": "OpeningHoursSpecification",
-          "dayOfWeek": ["Monday", "Friday"],
+          "dayOfWeek": [
+            "Monday",
+            "Friday"
+          ],
           "opens": "15:00",
           "closes": "19:00"
         },
-        "sameAs": ["https://www.instagram.com/by.calmaestetica/"],
+        "sameAs": [
+          "https://www.instagram.com/by.calmaestetica/",
+          "https://maps.google.com/?cid=14278384173827201350"
+        ],
         "employee": [
-          { "@type": "Person", "name": "Dra. Zulma Granja" },
-          { "@type": "Person", "name": "Dra. Karina Coronel" }
+          {
+            "@type": "Person",
+            "name": "Dra. Zulma Granja"
+          },
+          {
+            "@type": "Person",
+            "name": "Dra. Karina Coronel"
+          }
         ]
       }
     </script>
@@ -92,6 +136,9 @@
          ==================================================================== -->
     <svg width="0" height="0" style="position: absolute" aria-hidden="true">
       <defs>
+        <symbol id="i-star" viewBox="0 0 24 24">
+          <path fill="currentColor" d="M12 2.8l2.75 5.95 6.5.72-4.85 4.4 1.35 6.4L12 17.02l-5.75 3.25 1.35-6.4-4.85-4.4 6.5-.72z" />
+        </symbol>
         <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
           <path d="M4 7h16M4 12h16M4 17h16" />
         </symbol>
@@ -292,6 +339,16 @@
               <li class="stat">
                 <span class="stat-value" data-count="600" data-count-prefix="+" data-count-delay="750">+600</span>
                 <span class="stat-label">pacientes atendidas</span>
+              </li>
+              <!--
+                Reseñas reales de la ficha de Google. Actualizar el número a mano
+                cuando crezca (dato del 07/11/2026: 5,0 con 17 reseñas).
+              -->
+              <li class="stat">
+                <a class="stat-link" href="https://maps.google.com/?cid=14278384173827201350" target="_blank" rel="noopener" data-track="resenas_google">
+                  <span class="stat-value">5,0<svg class="stat-star" aria-hidden="true"><use href="#i-star" /></svg></span>
+                  <span class="stat-label">17 reseñas en Google</span>
+                </a>
               </li>
             </ul>
           </div>
@@ -952,8 +1009,9 @@
                   <span style="font-style: italic; color: var(--nude)">consulta</span>
                 </h2>
                 <p class="lead" style="margin-top: var(--space-4)">
-                  Atendemos lunes y viernes de 15 a 19 hs, con turno previo.
-                  Escribinos y coordinamos el horario que mejor te venga.
+                  Atendemos en Ituzaingó Norte, zona oeste del Gran Buenos Aires:
+                  lunes y viernes de 15 a 19 hs, con turno previo. Escribinos y
+                  coordinamos el horario que mejor te venga.
                 </p>
 
                 <dl class="contact-list">
@@ -1109,6 +1167,6 @@
       </div>
     </div>
 
-    <script src="assets/js/main.js?v=24" defer></script>
+    <script src="assets/js/main.js?v=26" defer></script>
   </body>
 </html>

@@ -7,10 +7,34 @@
    ========================================================================== */
 
 const CONFIG = {
-  // Link corto de WhatsApp de la marca
+  // Número de WhatsApp en formato internacional, sin "+" ni espacios.
+  // Es el mismo al que apunta el link corto wa.link/yxgf4b (se verificó la
+  // redirección). Ir directo a wa.me ahorra un salto y no depende de un
+  // servicio de terceros: si wa.link cambiara o cayera, los botones seguirían.
+  whatsappNumero: "541144473467",
+
+  // Link corto de respaldo: se usa si whatsappNumero queda vacío.
   whatsapp: "https://wa.link/yxgf4b",
+
+  // Lo primero que le llega a la doctora, según desde dónde se tocó el botón.
+  // Todos arrancan con "Vi la web": así, mirando el chat, se sabe qué consultas
+  // vienen del sitio y de qué sección, sin necesidad de ninguna herramienta.
+  // Claves = id de la sección donde está el botón.
+  whatsappMensajes: {
+    inicio: "Hola! Vi la web de By Calma Estética y quiero reservar una consulta.",
+    tratamientos: "Hola! Vi la web de By Calma Estética y quiero saber qué tratamiento me conviene.",
+    faq: "Hola! Vi la web de By Calma Estética y tengo una consulta.",
+    contacto: "Hola! Vi la web de By Calma Estética y quiero pedir un turno.",
+    menu: "Hola! Vi la web de By Calma Estética y quiero pedir un turno.",
+    defecto: "Hola! Vi la web de By Calma Estética y quiero consultar.",
+  },
+
   // Perfil de Instagram
   instagram: "https://www.instagram.com/by.calmaestetica/",
+
+  // Google Analytics 4: pegá acá el ID de medición ("G-XXXXXXXXXX").
+  // Mientras esté vacío no se carga nada ni se envía ningún dato.
+  ga4: "",
 };
 
 (function () {
@@ -21,14 +45,76 @@ const CONFIG = {
   ).matches;
 
   /* ------------------------------------------------------------------
+     Medición (Google Analytics 4)
+     Apagada mientras CONFIG.ga4 esté vacío. track() siempre es seguro de
+     llamar: si no hay analítica, no hace nada.
+     ------------------------------------------------------------------ */
+  if (CONFIG.ga4) {
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () {
+      window.dataLayer.push(arguments);
+    };
+    window.gtag("js", new Date());
+    window.gtag("config", CONFIG.ga4);
+    const gaScript = document.createElement("script");
+    gaScript.async = true;
+    gaScript.src =
+      "https://www.googletagmanager.com/gtag/js?id=" +
+      encodeURIComponent(CONFIG.ga4);
+    document.head.appendChild(gaScript);
+  }
+
+  function track(nombre, parametros) {
+    if (typeof window.gtag !== "function") return;
+    // "beacon" asegura que el evento salga aunque el botón abra otra pestaña
+    window.gtag("event", nombre, Object.assign({ transport_type: "beacon" }, parametros));
+  }
+
+  /* ------------------------------------------------------------------
      Enlaces de contacto — un solo lugar para actualizarlos
      ------------------------------------------------------------------ */
+  // ¿Desde qué parte de la página se tocó? Sirve para el mensaje de WhatsApp
+  // y para saber, en las estadísticas, qué botón trae más consultas.
+  function seccionDe(el) {
+    if (el.closest("#navMobile")) return "menu";
+    if (el.closest("footer")) return "pie";
+    const seccion = el.closest("section[id]");
+    return seccion ? seccion.id : "defecto";
+  }
+
+  function linkWhatsApp(seccion) {
+    if (!CONFIG.whatsappNumero) return CONFIG.whatsapp;
+    const texto =
+      CONFIG.whatsappMensajes[seccion] || CONFIG.whatsappMensajes.defecto;
+    return (
+      "https://wa.me/" + CONFIG.whatsappNumero + "?text=" + encodeURIComponent(texto)
+    );
+  }
+
   document.querySelectorAll("[data-wa]").forEach((el) => {
-    el.href = CONFIG.whatsapp;
+    const seccion = seccionDe(el);
+    el.dataset.seccion = seccion;
+    el.href = linkWhatsApp(seccion);
   });
 
   document.querySelectorAll("[data-ig]").forEach((el) => {
+    el.dataset.seccion = seccionDe(el);
     el.href = CONFIG.instagram;
+  });
+
+  // Un solo oyente para todos los botones de contacto
+  document.addEventListener("click", (e) => {
+    const link = e.target.closest("a[data-wa], a[data-ig], a[data-track]");
+    if (!link) return;
+    if (link.dataset.track) {
+      // Links con evento propio (por ejemplo, "resenas_google" en el hero)
+      track(link.dataset.track);
+    } else if (link.hasAttribute("data-wa")) {
+      // "generate_lead" es el evento estándar de GA4 para una consulta nueva
+      track("generate_lead", { method: "whatsapp", seccion: link.dataset.seccion });
+    } else {
+      track("click_instagram", { seccion: link.dataset.seccion });
+    }
   });
 
   /* ------------------------------------------------------------------
@@ -112,6 +198,7 @@ const CONFIG = {
       const open = item.dataset.open !== "true";
       item.dataset.open = String(open);
       trigger.setAttribute("aria-expanded", String(open));
+      if (open) track("faq_abierta", { pregunta: trigger.textContent.trim().slice(0, 80) });
     });
   });
 
@@ -153,6 +240,7 @@ const CONFIG = {
   resultCards.forEach((card) => {
     card.addEventListener("click", () => {
       const img = card.querySelector("img");
+      track("ver_resultado", { caso: (card.dataset.caption || "").slice(0, 80) });
       openLightbox(
         card.dataset.src,
         card.dataset.caption,
