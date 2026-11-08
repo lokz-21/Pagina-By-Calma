@@ -34,7 +34,7 @@ const CONFIG = {
 
   // Google Analytics 4: pegá acá el ID de medición ("G-XXXXXXXXXX").
   // Mientras esté vacío no se carga nada ni se envía ningún dato.
-  ga4: "",
+  ga4: "G-D5RMHN4V11",
 };
 
 (function () {
