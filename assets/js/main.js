@@ -75,17 +75,25 @@ const CONFIG = {
      ------------------------------------------------------------------ */
   // ¿Desde qué parte de la página se tocó? Sirve para el mensaje de WhatsApp
   // y para saber, en las estadísticas, qué botón trae más consultas.
+  // En las páginas de tratamiento, <body data-pagina="..."> antepone el nombre
+  // de la página: "toxina-botulinica/contacto" en vez de solo "contacto".
+  const pagina = document.body.dataset.pagina;
+
   function seccionDe(el) {
-    if (el.closest("#navMobile")) return "menu";
-    if (el.closest("footer")) return "pie";
-    const seccion = el.closest("section[id]");
-    return seccion ? seccion.id : "defecto";
+    let seccion = "defecto";
+    if (el.closest("#navMobile")) seccion = "menu";
+    else if (el.closest("footer")) seccion = "pie";
+    else if (el.closest("section[id]")) seccion = el.closest("section[id]").id;
+    return pagina ? pagina + "/" + seccion : seccion;
   }
 
-  function linkWhatsApp(seccion) {
+  // data-wa-msg (opcional) pisa el mensaje por defecto de la sección
+  function linkWhatsApp(seccion, mensajePropio) {
     if (!CONFIG.whatsappNumero) return CONFIG.whatsapp;
     const texto =
-      CONFIG.whatsappMensajes[seccion] || CONFIG.whatsappMensajes.defecto;
+      mensajePropio ||
+      CONFIG.whatsappMensajes[seccion] ||
+      CONFIG.whatsappMensajes.defecto;
     return (
       "https://wa.me/" + CONFIG.whatsappNumero + "?text=" + encodeURIComponent(texto)
     );
@@ -94,7 +102,7 @@ const CONFIG = {
   document.querySelectorAll("[data-wa]").forEach((el) => {
     const seccion = seccionDe(el);
     el.dataset.seccion = seccion;
-    el.href = linkWhatsApp(seccion);
+    el.href = linkWhatsApp(seccion, el.dataset.waMsg || document.body.dataset.waMsg);
   });
 
   document.querySelectorAll("[data-ig]").forEach((el) => {
@@ -140,7 +148,10 @@ const CONFIG = {
   const header = document.getElementById("siteHeader");
   const hero = document.getElementById("inicio");
 
-  if (header && hero && "IntersectionObserver" in window) {
+  if (header && header.hasAttribute("data-solid")) {
+    // Páginas sin foto de hero (tratamientos): el header va opaco siempre
+    header.classList.add("is-stuck");
+  } else if (header && hero && "IntersectionObserver" in window) {
     /* El header se vuelve opaco cuando la FOTO del hero deja de cubrir su
        franja superior. Se observa la foto y no la sección entera porque en
        celular el hero sigue hacia abajo con fondo claro: si miráramos la
@@ -272,8 +283,12 @@ const CONFIG = {
      Navegación: resalta la sección visible
      ------------------------------------------------------------------ */
   const navLinks = document.querySelectorAll(".nav-desktop a");
+  // Solo los links a anclas de esta misma página ("#equipo"); en las páginas de
+  // tratamiento el menú apunta a "/#equipo" y querySelector fallaría.
   const sections = Array.from(navLinks)
-    .map((link) => document.querySelector(link.getAttribute("href")))
+    .map((link) => link.getAttribute("href"))
+    .filter((href) => href && href.startsWith("#"))
+    .map((href) => document.querySelector(href))
     .filter(Boolean);
 
   if (sections.length && "IntersectionObserver" in window) {

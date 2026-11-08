@@ -52,7 +52,7 @@
 
     <!-- El ?v= fuerza al navegador a bajar la versión nueva. Subilo a v=2, v=3…
          cada vez que edites el CSS o el JS y publiques. -->
-    <link rel="stylesheet" href="assets/css/styles.css?v=27" />
+    <link rel="stylesheet" href="assets/css/styles.css?v=28" />
 
     <!-- Si el JavaScript no corre (bloqueado, falló la red, navegador viejo), la
          animación de entrada nunca se dispara y el titular, el botón y todas las
@@ -107,8 +107,8 @@
             "Monday",
             "Friday"
           ],
-          "opens": "15:00",
-          "closes": "19:00"
+          "opens": "14:00",
+          "closes": "20:00"
         },
         "sameAs": [
           "https://www.instagram.com/by.calmaestetica/",
@@ -453,6 +453,18 @@
               <svg class="icon" aria-hidden="true"><use href="#i-whatsapp" /></svg>
               Contanos qué querés mejorar
             </a>
+
+            <!-- Una página por tratamiento: es lo que Google muestra cuando
+                 alguien busca "botox Ituzaingó" o "relleno de labios". -->
+            <nav class="frentes-links" aria-label="Tratamientos">
+              <p>Conocé cada tratamiento</p>
+              <ul>
+                <li><a href="/toxina-botulinica-ituzaingo/">Toxina botulínica</a></li>
+                <li><a href="/relleno-de-labios-ituzaingo/">Relleno de labios</a></li>
+                <li><a href="/bioestimuladores-ituzaingo/">Bioestimuladores</a></li>
+                <li><a href="/armonizacion-facial-zona-oeste/">Armonización facial</a></li>
+              </ul>
+            </nav>
           </div>
 
           <!--
@@ -634,7 +646,7 @@
               </div>
               <div class="result-body">
                 <h3>Rinomodelación</h3>
-                <p>Perfil armonizado, sin cirugía ni reposo</p>
+                <p>Perfil armonizado, sin cirugía</p>
               </div>
             </button>
 
@@ -954,7 +966,7 @@
             <article class="faq-item" data-open="false">
               <h3>
                 <button class="faq-trigger" type="button" aria-expanded="false" aria-controls="f6">
-                  ¿Cuánto cuesta y cómo saco turno?
+                  ¿Cuánto cuesta?
                   <span class="chevron" aria-hidden="true"><svg class="icon"><use href="#i-chevron-down" /></svg></span>
                 </button>
               </h3>
@@ -963,10 +975,25 @@
                   <p class="faq-body">
                     Los valores dependen de la cantidad de producto y de las zonas
                     a tratar, por eso no los publicamos: te los pasamos por
-                    WhatsApp según tu caso. Atendemos lunes y viernes de 15 a 19
-                    hs: para el turno escribinos por WhatsApp o mandanos un
-                    mensaje por Instagram y coordinamos el horario dentro de esa
-                    franja.
+                    WhatsApp según tu caso.
+                  </p>
+                </div>
+              </div>
+            </article>
+
+            <article class="faq-item" data-open="false">
+              <h3>
+                <button class="faq-trigger" type="button" aria-expanded="false" aria-controls="f6b">
+                  ¿Cómo saco turno?
+                  <span class="chevron" aria-hidden="true"><svg class="icon"><use href="#i-chevron-down" /></svg></span>
+                </button>
+              </h3>
+              <div class="faq-panel" id="f6b">
+                <div class="faq-panel-inner">
+                  <p class="faq-body">
+                    Escribinos por WhatsApp o mandanos un mensaje por Instagram.
+                    Atendemos lunes y viernes de 14 a 20 hs, con turno previo:
+                    coordinamos el horario dentro de esa franja.
                   </p>
                 </div>
               </div>
@@ -983,7 +1010,7 @@
                 <div class="faq-panel-inner">
                   <p class="faq-body">
                     Atendemos en Santos Dumont 1299, Ituzaingó Norte, Provincia de
-                    Buenos Aires, los <strong>lunes y viernes de 15 a 19 hs</strong>.
+                    Buenos Aires, los <strong>lunes y viernes de 14 a 20 hs</strong>.
                     Es con turno previo: escribinos por WhatsApp y coordinamos el
                     horario dentro de esa franja. Abajo, en Contacto, tenés el mapa
                     para llegar.
@@ -1009,9 +1036,10 @@
                   <span style="font-style: italic; color: var(--nude)">consulta</span>
                 </h2>
                 <p class="lead" style="margin-top: var(--space-4)">
-                  Atendemos en Ituzaingó Norte, zona oeste del Gran Buenos Aires:
-                  lunes y viernes de 15 a 19 hs, con turno previo. Escribinos y
-                  coordinamos el horario que mejor te venga.
+                  Atendemos en Ituzaingó Norte, zona oeste del Gran Buenos Aires,
+                  cerca de Castelar, Hurlingham y Padua: lunes y viernes de 14 a
+                  20 hs, con turno previo. Escribinos y coordinamos el horario que
+                  mejor te venga.
                 </p>
 
                 <dl class="contact-list">
@@ -1051,7 +1079,7 @@
                     <div>
                       <dt>Horario</dt>
                       <dd>
-                        Lunes y viernes, de 15 a 19 hs
+                        Lunes y viernes, de 14 a 20 hs
                         <small>Con turno previo: coordinamos por WhatsApp</small>
                       </dd>
                     </div>
@@ -1121,6 +1149,16 @@
           </div>
 
           <div class="footer-col">
+            <h3>Tratamientos</h3>
+            <ul>
+              <li><a href="/toxina-botulinica-ituzaingo/">Toxina botulínica</a></li>
+              <li><a href="/relleno-de-labios-ituzaingo/">Relleno de labios</a></li>
+              <li><a href="/bioestimuladores-ituzaingo/">Bioestimuladores</a></li>
+              <li><a href="/armonizacion-facial-zona-oeste/">Armonización facial</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-col">
             <h3>Información</h3>
             <ul>
               <li><a href="#mitos">Mitos y verdades</a></li>
@@ -1167,6 +1205,6 @@
       </div>
     </div>
 
-    <script src="assets/js/main.js?v=26" defer></script>
+    <script src="assets/js/main.js?v=27" defer></script>
   </body>
 </html>

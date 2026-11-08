@@ -1220,6 +1220,56 @@ button {
   margin-top: var(--space-8);
 }
 
+/* Links a las páginas de cada tratamiento */
+.frentes-links {
+  margin-top: var(--space-8);
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--sand-deep);
+}
+
+.frentes-links p {
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.frentes-links ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: var(--space-4) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.frentes-links a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid var(--sand-deep);
+  border-radius: var(--r-full);
+  color: var(--text);
+  font-size: 0.875rem;
+  text-decoration: none;
+  transition: background-color var(--dur) var(--ease-out),
+    border-color var(--dur) var(--ease-out);
+}
+
+@media (hover: hover) {
+  .frentes-links a:hover {
+    background: var(--surface);
+    border-color: var(--terracota);
+  }
+}
+
+.frentes-links a:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 3px;
+}
+
 .frentes {
   margin: 0;
   padding: 0;
